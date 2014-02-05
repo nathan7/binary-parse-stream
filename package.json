@@ -1,6 +1,6 @@
 {
   "name": "binary-parse-stream",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Painless streaming binary protocol parsers using generators.",
   "main": "index.js",
   "repository": {
