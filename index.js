@@ -44,7 +44,7 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) {
     }
 
     if (!ret.done) {
-      var value = ret.value | 0
+      var value = ret.value
       single = value === One
       needed = single
         ? 1
