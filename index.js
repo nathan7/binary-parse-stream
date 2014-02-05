@@ -4,7 +4,7 @@ var Stream = require('stream')
   , TransformStream = Stream.Transform
   , inherits = require('util').inherits
 
-var One = exports.One = { valueOf: function() { return 1 } }
+var One = exports.One = -1
 
 inherits(BinaryParseStream, TransformStream)
 function BinaryParseStream(options) {
@@ -14,6 +14,7 @@ function BinaryParseStream(options) {
 
   this._queue = null
   this._needed = 0
+  this._single = false
   this._parser = this._parse()
 }
 
@@ -23,15 +24,16 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) {
     : Buffer.concat(this._queue, fresh)
 
   var needed = this._needed
+    , single = this._single
 
   while (queue.length >= needed) {
-    var chunk = queue.slice(0, +needed)
-    queue = queue.slice(+needed)
+    var chunk = queue.slice(0, needed)
+    queue = queue.slice(needed)
     
     var ret
       , err
     try {
-      if (needed === One)
+      if (single)
         ret = this._parser.next(chunk[0])
       else
         ret = this._parser.next(chunk)
@@ -41,8 +43,13 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) {
       ret = { done: true }
     }
 
-    if (!ret.done)
-      needed = ret.value
+    if (!ret.done) {
+      var value = ret.value | 0
+      single = value === One
+      needed = single
+        ? 1
+        : value
+    }
     else {
       if (err)
         this.emit('error', err)
@@ -55,5 +62,6 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) {
 
   this._queue = queue
   this._needed = needed
+  this._single = single
   return cb()
 }
