@@ -23,7 +23,9 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
 
   while (this.__read.able >= abs(this.__needed)) {
     var ret
-      , chunk = this.__read(this.__needed)
+      , chunk = this.__needed === null
+        ? undefined
+        : this.__read(this.__needed)
 
     try { ret = this.__parser.next(chunk) }
 
@@ -32,7 +34,7 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
       this.__restart()
       continue
     }
-    
+
     if (ret.done) {
       this.push(ret.value)
       this.__restart()
@@ -46,6 +48,6 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
 }
 
 BinaryParseStream.prototype.__restart = function() {
-  this.__needed = 0
+  this.__needed = null
   this.__parser = this._parse()
 }
