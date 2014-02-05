@@ -41,7 +41,7 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
       continue
     }
 
-    this.__needed = ret.value
+    this.__needed = +ret.value
   }
 
   return cb()
