@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/nathan7/binary-parse-stream/issues"
   },
-  "homepage": "https://github.com/nathan7/binary-parse-stream"
+  "homepage": "https://github.com/nathan7/binary-parse-stream",
+  "dependencies": {
+    "readable": "~1.1.2"
+  }
 }

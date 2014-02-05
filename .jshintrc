@@ -3,5 +3,6 @@
   "laxbreak": true,
   "laxcomma": true,
   "node": true,
-  "strict": true
+  "strict": true,
+  "newcap": false
 }
