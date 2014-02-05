@@ -29,15 +29,25 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) {
     queue = queue.slice(+needed)
     
     var ret
-    if (needed === One)
-      ret = this._parser.next(chunk[0])
-    else
-      ret = this._parser.next(chunk)
+      , err
+    try {
+      if (needed === One)
+        ret = this._parser.next(chunk[0])
+      else
+        ret = this._parser.next(chunk)
+    }
+    catch (e) {
+      err = e
+      ret = { done: true }
+    }
 
     if (!ret.done)
       needed = ret.value
     else {
-      this.push(ret.value)
+      if (err)
+        this.emit('error', err)
+      else
+        this.push(ret.value)
       needed = 0
       this._parser = this._parse()
     }
