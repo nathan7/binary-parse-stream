@@ -28,20 +28,17 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
         : this.__read(this.__needed)
 
     try { ret = this.__parser.next(chunk) }
+    catch (e) { return cb(e) }
 
-    catch (e) {
-      this.emit('error', e)
-      this.__restart()
-      continue
-    }
+    if (this.__needed !== 0)
+      this.__fresh = false
 
-    if (ret.done) {
+    if (!ret.done)
+      this.__needed = +ret.value
+    else {
       this.push(ret.value)
       this.__restart()
-      continue
     }
-
-    this.__needed = +ret.value
   }
 
   return cb()
@@ -50,4 +47,9 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
 BinaryParseStream.prototype.__restart = function() {
   this.__needed = null
   this.__parser = this._parse()
+  this.__fresh = true
+}
+
+BinaryParseStream.prototype._flush = function(cb) {
+  cb(this.__fresh && new Error('unexpected end of input'))
 }
