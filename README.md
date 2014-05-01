@@ -10,7 +10,7 @@
 
 ```javascript
 var BinaryParseStream = require('binary-parse-stream')
-  , One = BinaryParseStream.One
+  , One = BinaryParseStream.One // -1
 ```
 
   BinaryParseStream is a TransformStream that consumes buffers and outputs objects on the other end.
