@@ -30,7 +30,7 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
     try { ret = this.__parser.next(chunk) }
     catch (e) { return cb(e) }
 
-    if (this.__needed !== 0)
+    if (this.__needed)
       this.__fresh = false
 
     if (!ret.done)
