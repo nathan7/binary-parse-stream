@@ -34,7 +34,7 @@ BinaryParseStream.prototype._transform = function(fresh, encoding, cb) { var sel
       this.__fresh = false
 
     if (!ret.done)
-      this.__needed = +ret.value
+      this.__needed = ret.value | 0
     else {
       this.push(ret.value)
       this.__restart()
