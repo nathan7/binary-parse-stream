@@ -29,6 +29,7 @@ var BinaryParseStream = require('binary-parse-stream')
   , inherits = require('util').inherits
 
 module.exports = SillyProtocolParseStream
+inherits(SillyProtocolParseStream, BinaryParseStream)
 function SillyProtocolParseStream(options) {
   BinaryParseStream.call(this, options)
 }
