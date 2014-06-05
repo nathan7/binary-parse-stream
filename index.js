@@ -53,3 +53,12 @@ BinaryParseStream.prototype.__restart = function() {
 BinaryParseStream.prototype._flush = function(cb) {
   cb(this.__fresh && new Error('unexpected end of input'))
 }
+
+BinaryParseStream.extend = function(parser) {
+  inherits(CustomBinaryParseStream, BinaryParseStream)
+  function CustomBinaryParseStream(options) {
+    BinaryParseStream.call(this, options)
+  }
+  CustomBinaryParseStream.prototype._parse = parser
+  return CustomBinaryParseStream
+}

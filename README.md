@@ -44,3 +44,6 @@ SillyProtocolParseStream.prototype._parse = function*() {
   return { type: type, buf: buf }
 }
 ```
+
+  There is also a shorter syntax for when you don't want to explicitly subclass:  `BinaryParseStream.extend(function*())`.
+
