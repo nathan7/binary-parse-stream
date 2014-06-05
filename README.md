@@ -6,6 +6,10 @@
 
     npm install binary-parse-stream
 
+## Synchronous
+
+  This module uses the exact same generator interface as [binary-parser](https://github.com/nathan7/binary-parser), which presents a synchronous interface to a generator parser.
+
 ## Usage
 
 ```javascript
