@@ -51,7 +51,9 @@ BinaryParseStream.prototype.__restart = function() {
 }
 
 BinaryParseStream.prototype._flush = function(cb) {
-  cb(this.__fresh && new Error('unexpected end of input'))
+  cb(this.__fresh
+    ? null
+    : new Error('unexpected end of input'))
 }
 
 BinaryParseStream.extend = function(parser) {
